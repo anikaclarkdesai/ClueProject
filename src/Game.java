@@ -1,7 +1,10 @@
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage; 
+import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.awt.event.*; 
 
 
@@ -9,23 +12,40 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 
 	
 	private BufferedImage back; 
-	private int key, x, y; 
-
-
-
+	private int key, x, y;
+	private HashMap <String, ArrayList <Cards>> cards;
 	
-	public Game() {
-		new Thread(this).start();	
-		this.addKeyListener(this);
-		this.addMouseListener(this);
-		this.addMouseMotionListener(this);
-		key =-1; 
-		x=0;
-		y=0;
+	
+	
 		
-	
-	}
+		public Game() {
+			new Thread(this).start();	
+			this.addKeyListener(this);
+			this.addMouseListener(this);
+			this.addMouseMotionListener(this);
+			key =-1; 
+			x=0;
+			y=0;
+			
+			cards = setCards();
+			ArrayList <Cards> allCards = new ArrayList<>(); //creates arraylist of all cards
+			//adds the sets of cards to all of the cards
+			allCards.addAll(cards.get("Suspects"));
 
+		Collections.shuffle(allCards);
+		Cards tempCard =allCards.remove(0); // removes the first card
+
+
+		if(cards.get("Room").contains(tempCard)){ //checks if room card contains teh tempCard value
+				//ad player
+		}
+	}
+	public HashMap <String, ArrayList <Cards>> setCards(){
+	HashMap <String, ArrayList<Cards>> temp = new HashMap<>();
+	temp.put("Suspects", setSuspects());
+
+	return temp;
+}
 	
 	
 	public void run()
