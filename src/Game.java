@@ -1,5 +1,8 @@
 
 import javax.swing.*;
+
+import Cards.Cards;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -14,7 +17,7 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 	private BufferedImage back; 
 	private int key, x, y;
 	private HashMap <String, ArrayList <Cards>> cards;
-	
+	private ImageIcon Bg;
 	
 	
 		
@@ -27,6 +30,12 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 			x=0;
 			y=0;
 			
+			Bg = new ImageIcon("Clue.png"); 
+
+
+
+
+
 			cards = setCards();
 			ArrayList <Cards> allCards = new ArrayList<>(); //creates arraylist of all cards
 			//adds the sets of cards to all of the cards
@@ -41,14 +50,70 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		}
 	}
 	public HashMap <String, ArrayList <Cards>> setCards(){
-	HashMap <String, ArrayList<Cards>> temp = new HashMap<>();
-	temp.put("Suspects", setSuspects());
+		HashMap <String, ArrayList<Cards>> temp = new HashMap<>();
+			temp.put("Suspects", setSuspects()); //sets the supsect type cards
+			temp.put("Weapons", setWeapons());
+			temp.put("Rooms", setRooms());
+					
+			return temp;
+			}
+						
+					
+					
+	private ArrayList<Cards> setSuspects() { //writes the suspect arraylists from the classes of suspects
+			// TODO Auto-generated method stub
+		ArrayList<Cards> Suspects = new ArrayList<Cards>();
+		return Suspects;
+	}
 
-	return temp;
-}
-	
-	
-	public void run()
+	private ArrayList<Cards> setWeapons() { //writes the weapons into arraylist from the types of weapons
+		ArrayList<Cards> Weapons = new ArrayList<Cards>();
+		return Weapons;
+	}
+
+	private ArrayList<Cards> setRooms(){//writes the rooms into arraylist from the types of rooms
+	ArrayList<Cards> Rooms = new ArrayList<Cards>();
+		return Rooms;
+	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+			public void run()
 	   {
 	   	try
 	   	{
@@ -77,7 +142,9 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		Graphics g2d = back.createGraphics();
 	
 		g2d.clearRect(0,0,getSize().width, getSize().height);
-	
+		g2d.drawImage(Bg.getImage(), 0,0, getSize().width , getSize().height, this );
+
+
 		g2d.setFont( new Font("Broadway", Font.BOLD, 50));
 		
 		g2d.drawString("Hello!" , x, y);
@@ -88,7 +155,7 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 
 	}
 
-	
+
 
 
 
