@@ -2,6 +2,8 @@
 import javax.swing.*;
 
 import Cards.Cards;
+import Cards.People.AOC;
+import Cards.People.Donald;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -62,8 +64,11 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 					
 	private ArrayList<Cards> setSuspects() { //writes the suspect arraylists from the classes of suspects
 			// TODO Auto-generated method stub
-		ArrayList<Cards> Suspects = new ArrayList<Cards>();
-		return Suspects;
+		ArrayList <Cards> temp = new ArrayList<Cards>();
+			temp.add(new Donald());
+			temp.add(new AOC());
+		
+		return temp;
 	}
 
 	private ArrayList<Cards> setWeapons() { //writes the weapons into arraylist from the types of weapons
