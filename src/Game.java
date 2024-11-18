@@ -3,7 +3,28 @@ import javax.swing.*;
 
 import Cards.Cards;
 import Cards.People.AOC;
+import Cards.People.Bernie;
 import Cards.People.Donald;
+import Cards.People.KamalaHarris;
+import Cards.People.Putin;
+import Cards.People.Suspects;
+import Cards.People.TedCruz;
+import Cards.People.TimWalz;
+import Cards.Rooms.Capital;
+import Cards.Rooms.Pennsylvania;
+import Cards.Rooms.PlannedParenthood;
+import Cards.Rooms.Rooms;
+import Cards.Rooms.SchoolNurse;
+import Cards.Rooms.TheBorder;
+import Cards.Rooms.WallStreet;
+import Cards.Weapons.Auditor;
+import Cards.Weapons.EmailRecords;
+import Cards.Weapons.Fillibuster;
+import Cards.Weapons.Indictments;
+import Cards.Weapons.Inflation;
+import Cards.Weapons.Propaganda;
+import Cards.Weapons.VoterFraud;
+import Cards.Weapons.Weapons;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -35,21 +56,13 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 			Bg = new ImageIcon("Clue.png"); 
 
 
+			cards = setCards();	//calls the all the cards in the hashmap
 
 
 
-			cards = setCards();
-			ArrayList <Cards> allCards = new ArrayList<>(); //creates arraylist of all cards
-			//adds the sets of cards to all of the cards
-			allCards.addAll(cards.get("Suspects"));
-
-		Collections.shuffle(allCards);
-		Cards tempCard =allCards.remove(0); // removes the first card
-
-
-		if(cards.get("Room").contains(tempCard)){ //checks if room card contains teh tempCard value
-				//ad player
-		}
+			JoinCards();
+		 
+		
 	}
 	public HashMap <String, ArrayList <Cards>> setCards(){
 		HashMap <String, ArrayList<Cards>> temp = new HashMap<>();
@@ -67,55 +80,36 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 		ArrayList <Cards> temp = new ArrayList<Cards>();
 			temp.add(new Donald());
 			temp.add(new AOC());
-		
-		return temp;
-	}
+			temp.add(new Bernie());
+			temp.add(new KamalaHarris());
+			temp.add(new Putin());
+			temp.add(new TedCruz());
+			temp.add(new TimWalz());
+			return temp;
+		}
 
 	private ArrayList<Cards> setWeapons() { //writes the weapons into arraylist from the types of weapons
 		ArrayList<Cards> Weapons = new ArrayList<Cards>();
+			Weapons.add(new Auditor());
+			Weapons.add(new EmailRecords());
+			Weapons.add(new Fillibuster());
+			Weapons.add(new Indictments());
+			Weapons.add(new Inflation());
+			Weapons.add(new Propaganda());
+			Weapons.add(new VoterFraud());
 		return Weapons;
 	}
 
 	private ArrayList<Cards> setRooms(){//writes the rooms into arraylist from the types of rooms
 	ArrayList<Cards> Rooms = new ArrayList<Cards>();
+			Rooms.add(new Capital());
+			Rooms.add(new Pennsylvania());
+			Rooms.add(new PlannedParenthood());
+			Rooms.add(new SchoolNurse());
+			Rooms.add(new TheBorder());
+			Rooms.add(new WallStreet());
 		return Rooms;
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 			public void run()
@@ -160,9 +154,33 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 
 	}
 
+	public void JoinCards(){
+		
+		
+		ArrayList <Cards> allCards = new ArrayList<>(); //creates arraylist of all cards
+			
+		
+		//adds the sets of cards to all of the cards
+		allCards.addAll(cards.get("Suspects"));
+		allCards.addAll(cards.get("Weapons"));
+		allCards.addAll(cards.get("Rooms"));
+
+		
+		Collections.shuffle(allCards);//shuffels all the cards put together
+				System.out.println(allCards);
+		
+		Cards tempCard =allCards.remove(0); // removes the first card
+		CheckForTempValue(tempCard);
+	}
 
 
-
+	public void CheckForTempValue(Cards c){
+		if(cards.get("Rooms").contains(c)){ //checks if room card contains teh tempCard value
+			//ad player
+			System.out.println("Rooms contain Temp Value");
+	}
+	}
+	
 
 	//DO NOT DELETE
 	@Override

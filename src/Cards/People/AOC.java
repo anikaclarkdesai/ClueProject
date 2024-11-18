@@ -6,6 +6,10 @@ public class AOC extends Suspects{
 
     
     public AOC(){
-        super("type", new ImageIcon("Placeholder"));
+        super(new ImageIcon("Placeholder"));
+    }
+
+    public String toString(){
+        
     }
 }
