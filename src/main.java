@@ -3,8 +3,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class main extends JFrame{
-	private static final int WIDTH =1800;
-	private static final int HEIGHT=1600;
+	private static final int WIDTH =1400;
+	private static final int HEIGHT=1000;
 	
 	public main () {
 		super("KeyListener Demo");
@@ -12,10 +12,10 @@ public class main extends JFrame{
 		Game play = new Game();
 		((Component) play).setFocusable(true);
 		
-		Color RoyalBlue = new Color(22,13,193);
+		Color PeachCream = new Color(246,233,191);
 		
 		
-		setBackground(RoyalBlue);
+		setBackground(PeachCream);
 		
 		
 		getContentPane().add(play);
