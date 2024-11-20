@@ -10,7 +10,7 @@ public class Suspects extends Cards{
     
     public Suspects() {
         //TODO Auto-generated constructor stub
-        super("Suspect", new ImageIcon("CardBackground"));
+        super();
     } 
 
     public Suspects( ImageIcon i){

@@ -6,7 +6,7 @@ public class Bernie extends Suspects{
 
     
     public Bernie(){
-        super("type", new ImageIcon("Placeholder"));
+        super( new ImageIcon("Placeholder"));
     }
 }
 

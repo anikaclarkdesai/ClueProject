@@ -6,6 +6,6 @@ public class Donald extends Suspects{
 
     
     public Donald(){
-        super("type", new ImageIcon("Placeholder"));
+        super( new ImageIcon("Placeholder"));
     }
 }

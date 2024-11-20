@@ -6,6 +6,6 @@ public class TimWalz extends Suspects{
 
     
     public TimWalz(){
-        super("type", new ImageIcon("Placeholder"));
+        super(new ImageIcon("Placeholder"));
     }
 }

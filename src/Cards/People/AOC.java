@@ -9,7 +9,4 @@ public class AOC extends Suspects{
         super(new ImageIcon("Placeholder"));
     }
 
-    public String toString(){
-        
-    }
 }

@@ -6,18 +6,28 @@ import javax.swing.ImageIcon;
 
 public class Cards {
     
-    public static String type;
+    public String type;
+    public int x,y,w,h;
     public ImageIcon img;
     private ArrayList <Cards> cardtype;
 
 
     public Cards() {
+        //sets the basic values of the card
+        x= 800;
+        y= 400;
+        w= 200;
+        h= 200;
         type = "void";
         img= new ImageIcon("CardBackground.jpeg");
 
     }
 
     public Cards(String typeofCard, ImageIcon i){ //imports the type of card
+        x= 800;
+        y= 400;
+        w= 200;
+        h= 200;
         type = typeofCard; //imports the type of card it is
         img= i; //imports the image 
     }
