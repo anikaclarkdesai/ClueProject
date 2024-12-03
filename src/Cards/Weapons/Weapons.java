@@ -6,8 +6,8 @@ import Cards.Cards;
 public class Weapons extends Cards{
 
 
-    public Weapons(String type, ImageIcon i){
-        super(type, i);
+    public Weapons(String type, String name, ImageIcon i){
+        super(type, name, i);
     }
 
     public Weapons() {
