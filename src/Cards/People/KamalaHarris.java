@@ -6,6 +6,6 @@ public class KamalaHarris extends Suspects{
 
     
     public KamalaHarris(){
-        super(new ImageIcon("Placeholder"));
+        super(new ImageIcon("Kamala.png"));
     }
 }

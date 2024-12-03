@@ -6,6 +6,6 @@ public class TedCruz extends Suspects{
 
     
     public TedCruz(){
-        super(new ImageIcon("Placeholder"));
+        super(new ImageIcon("Ted.png"));
     }
 }
