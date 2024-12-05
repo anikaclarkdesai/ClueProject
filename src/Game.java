@@ -130,6 +130,8 @@ public Game() {
 
 	return temp;
 	}
+
+
 			public void run()
 	{
 		try
@@ -206,12 +208,12 @@ public void JoinCards(Graphics g2d){
 	int i = 0;
 	int cardsSperated = cards.size()/4;// sets cardsSeperated equal to 1/4th of the amount of cards
 
-	while (i<= cardsSperated){//adds cards to the deck until the max amount in a deck is reached
-		deck().add(allCards.get(i));
-		System.out.println(deck);
+	if (i<= cardsSperated){//adds cards to the deck until the max amount in a deck is reached
+		deck.add(allCards.get(i));
 	i++;
 	}
 	if (i>=cardsSperated){
+		System.out.println(deck);
 		CheckForTempValue(deck);
 	}
 }
