@@ -60,6 +60,7 @@ public Game() {
 			y=0;
 			amountofplayers =0;
 			playerschosen =false;
+			System.out.println("enter the amount of players");
 
 
 			Bg = new ImageIcon("Clue.png"); 
@@ -202,17 +203,17 @@ public void JoinCards(Graphics g2d){
 	Collections.shuffle(allCards);//shuffels all the cards put together
 	System.out.println(allCards);
 
-	
-	
-	
+
 	
 
 	cardpicked=true;//draws the card at the top
 	
-	 distributeCards(allCards);
+	distributeCards(allCards);
 	CheckForTempValue(deck);
 	
 }
+
+
 public void distributeCards(ArrayList<Cards> allCards){
 ArrayList <ArrayList<Cards>> MasterDeck = new ArrayList<>();
 
@@ -220,17 +221,21 @@ ArrayList <ArrayList<Cards>> MasterDeck = new ArrayList<>();
 		ArrayList <Cards> playerdeck = new ArrayList<>();// makes the deck for the player
 		MasterDeck.add(playerdeck);//adds the deck to the master deck
 	}
+	System.out.println("MasterDeck size"+MasterDeck.size());
 /*for(Cards all: allCards){
 
 }*/
 
 // for every card in the allCards arraylist it will take each deck add the top card, when it goes through every deck it checks if the original deck is empty, if it isnt it repeats the for loop
 	while(!allCards.isEmpty()){// while the original pile is not empty
-		for(ArrayList<Cards> eachDeck: MasterDeck ){ // the arraylist of player decks will sort for each deck
-			eachDeck.add(allCards.get(0)); //for each deck add the first in the allCards pile
-					allCards.remove(0);// remove the first in the all cards pile
-		}
-	}
+	//	for(ArrayList<Cards> eachDeck: MasterDeck ){// the arraylist of player decks will sort for each deck
+		//	System.out.println("MasterDeck size here"+eachDeck.size());
+			//for(int i=0; i<MasterDeck.g) 
+			//eachDeck.add(allCards.remove(0)); //for each deck add the first in the allCards pile
+					//allCards.remove(0);// remove the first in the all cards pile			
+}
+	//}
+		
 	if(allCards.isEmpty()){
 		System.out.println(MasterDeck);
 	}
@@ -288,29 +293,28 @@ public void keyPressed(KeyEvent e) {
 	key= e.getKeyCode();
 	System.out.println(key);
 
-if( playerschosen= false){
-	if(key ==1){
+if(playerschosen==false){
+	
+
+	if(key ==49){
 		amountofplayers=1;
 		playerschosen= true;
-	} else if(key==2){
+	} else if(key==50){
 		amountofplayers=2;
 		playerschosen= true;
-	}else if(key==3){
+	}else if(key==51){
 		amountofplayers=3;
 		playerschosen= true;
-	}else if(key==4){
+	}else if(key==52){
 		amountofplayers=4;
 		playerschosen= true;
 	} else{
 		System.out.println("Invalid Amount of Players");
 	}
 }
-	
-	
-	
-
 }
-
+	
+	
 
 //DO NOT DELETE
 @Override
