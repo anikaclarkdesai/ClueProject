@@ -6,6 +6,6 @@ public class Pennsylvania extends Rooms{
 
     
     public Pennsylvania(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Pensylvania", new ImageIcon("Placeholder"));
     }
 }

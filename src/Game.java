@@ -41,11 +41,13 @@ private BufferedImage back;
 private int key, x, y;
 private int cardbasicx, cardbasicy, cardbasicw, cardbasich;//sets the x and y of the basic card
 private HashMap <String, ArrayList <Cards>> cards;
+public ArrayList <Cards> deck;
+private Cards tempCard; //speaks to the card class so I can access, tempCard gets the top card 
 private ImageIcon Bg, CardBackground;
 private boolean cardpicked;//checks if u clicked the caards at the beginnng of the game
 private boolean cardclicked; //checks if you clicked the cards on the board
 private boolean joincards;//checks if the center has been clicked and shuffles the cards accordingly
-	
+
 		
 public Game() {
 			new Thread(this).start();	
@@ -60,6 +62,8 @@ public Game() {
 			CardBackground = new ImageIcon("CardBackground.jpeg");
 
 			cards = setCards();	//calls the all the cards in the hashmap
+			deck = deck(); //calls all the cards in a players hand
+
 
 			cardpicked= false; //checks if the temp card has been remove and if it has then to remove it from the pile and being drawn
 
@@ -121,7 +125,11 @@ public Game() {
 		return Rooms;
 	}
 
+	public ArrayList<Cards> deck(){
+		ArrayList<Cards> temp = new ArrayList<Cards>();
 
+	return temp;
+	}
 			public void run()
 	{
 		try
@@ -163,6 +171,7 @@ public Game() {
 		}
 		if(joincards==true){//checks if the cards need to be drawn
 			JoinCards(g2d);//puts all the cards together
+			joincards=false;//stops joining and shuffling card
 		}
 		if (cardclicked == true){
 		showcards(g2d);
@@ -183,35 +192,49 @@ public void JoinCards(Graphics g2d){
 
 
 	
-	Cards tempCard =allCards.get(0); // removes the first card
 	Collections.shuffle(allCards);//shuffels all the cards put together
 	System.out.println(allCards);
 
 	
-	CheckForTempValue(tempCard);
 	
-	joincards=false;//stops joining and shuffling card
+	
+	
 
 	cardpicked=true;//draws the card at the top
 	
+
+	int i = 0;
+	int cardsSperated = cards.size()/4;// sets cardsSeperated equal to 1/4th of the amount of cards
+
+	while (i<= cardsSperated){//adds cards to the deck until the max amount in a deck is reached
+		deck().add(allCards.get(i));
+		System.out.println(deck);
+	i++;
+	}
+	if (i>=cardsSperated){
+		CheckForTempValue(deck);
+	}
 }
 
 
 
-public void CheckForTempValue(Cards c ){
-///if(cards.get("Rooms").contains(c)||cards.get("Suspects").contains(c)||cards.get("Weapons").contains(c)){ //checks if room card contains teh tempCard value
+public void CheckForTempValue(ArrayList<Cards> c ){
+	if(cards.get("Rooms").contains(c)||cards.get("Suspects").contains(c)||cards.get("Weapons").contains(c)){ //checks if room card contains teh tempCard value
+	}
+	System.out.println(deck);
 			//ad player
 	//cardpicked=true;
 	//System.out.println("Rooms contain Temp Value");
-	//}
-
 	}
+
+
 
 	//major issue will not draw the card when pressed
 		
 private void drawCard(Graphics g2d) {
 	// TODO Auto-generated method stub
-	g2d.drawImage(CardBackground.getImage(), cardbasicx, cardbasicy, cardbasicw, cardbasich, this);
+	//g2d.drawImage(CardBackground.getImage(), cardbasicx, cardbasicy, cardbasicw, cardbasich, this);
+
 	//System.out.println("Are we drawing");
 
 	

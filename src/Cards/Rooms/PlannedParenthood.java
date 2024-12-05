@@ -6,6 +6,6 @@ public class PlannedParenthood extends Rooms{
 
     
     public PlannedParenthood(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Planned Parenthood", new ImageIcon("Placeholder"));
     }
 }

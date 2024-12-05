@@ -6,6 +6,6 @@ public class SchoolNurse extends Rooms{
 
     
     public SchoolNurse(){
-        super("type", new ImageIcon("Placeholder"));
+        super("School Nurse", new ImageIcon("Placeholder"));
     }
 }

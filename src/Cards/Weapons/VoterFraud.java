@@ -6,6 +6,6 @@ public class VoterFraud extends Weapons{
 
     
     public VoterFraud(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Voter Fraud", new ImageIcon("Placeholder"));
     }
 }

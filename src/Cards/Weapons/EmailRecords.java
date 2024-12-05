@@ -6,6 +6,6 @@ public class EmailRecords extends Weapons{
 
     
     public EmailRecords(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Email Records", new ImageIcon("Placeholder"));
     }
 }

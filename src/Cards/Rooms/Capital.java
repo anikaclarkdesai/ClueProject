@@ -6,6 +6,6 @@ public class Capital extends Rooms{
 
     
     public Capital(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Capital", new ImageIcon("Placeholder"));
     }
 }

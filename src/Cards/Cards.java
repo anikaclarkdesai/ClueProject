@@ -69,7 +69,7 @@ public class Cards {
 
 
     public void drawCard(Graphics g2d){
-        g2d.drawImage(img.getImage(), x, y, w, h, (ImageObserver) this);//gets the image and put it the blank card space
+        g2d.drawImage(img.getImage(), x, y, w, h, null);//gets the image and put it the blank card space
         g2d.setFont( new Font("Baskerville Old Face", Font.PLAIN, 30));
         g2d.drawString(name, x+50, y+200);
         g2d.drawString(type, x+ 50, y+280);

@@ -6,6 +6,6 @@ public class Donald extends Suspects{
 
     
     public Donald(){
-        super( new ImageIcon("Donald.png"));
+        super("Donald Trump" ,new ImageIcon("Donald.png"));
     }
 }

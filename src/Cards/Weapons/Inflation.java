@@ -6,6 +6,6 @@ public class Inflation extends Weapons{
 
     
     public Inflation(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Inflation", new ImageIcon("Placeholder"));
     }
 }

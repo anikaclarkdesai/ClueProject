@@ -6,6 +6,6 @@ public class TheBorder extends Rooms{
 
     
     public TheBorder(){
-        super("type", new ImageIcon("Placeholder"));
+        super("The Border", new ImageIcon("Placeholder"));
     }
 }

@@ -21,6 +21,8 @@ public class main extends JFrame{
 		getContentPane().add(play);
 		
 		setVisible(true);
+		
+		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 	}

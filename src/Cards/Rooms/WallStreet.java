@@ -6,6 +6,6 @@ public class WallStreet extends Rooms{
 
     
     public WallStreet(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Wall Street", new ImageIcon("Placeholder"));
     }
 }

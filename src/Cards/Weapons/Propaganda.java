@@ -6,6 +6,6 @@ public class Propaganda extends Weapons{
 
     
     public Propaganda(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Propoganda", new ImageIcon("Placeholder"));
     }
 }

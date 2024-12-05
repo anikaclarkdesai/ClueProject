@@ -6,6 +6,6 @@ public class Indictments extends Weapons{
 
     
     public Indictments(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Indictments", new ImageIcon("Placeholder"));
     }
 }

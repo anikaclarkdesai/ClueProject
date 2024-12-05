@@ -6,6 +6,6 @@ public class Auditor extends Weapons{
 
     
     public Auditor(){
-        super("type", new ImageIcon("Placeholder"));
+        super("Auditor", new ImageIcon("Placeholder"));
     }
 }

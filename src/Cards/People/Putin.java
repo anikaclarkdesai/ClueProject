@@ -6,6 +6,6 @@ public class Putin extends Suspects{
 
     
     public Putin(){
-        super(new ImageIcon("Putin.png"));
+        super("Putin", new ImageIcon("Putin.png"));
     }
 }
