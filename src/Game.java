@@ -39,6 +39,7 @@ public class Game  extends JPanel implements Runnable, KeyListener, MouseListene
 
 private BufferedImage back; 
 private int key, x, y;
+private int amountofplayers; //how many people are playing
 private int cardbasicx, cardbasicy, cardbasicw, cardbasich;//sets the x and y of the basic card
 private HashMap <String, ArrayList <Cards>> cards;
 public ArrayList <Cards> deck;
@@ -47,7 +48,7 @@ private ImageIcon Bg, CardBackground;
 private boolean cardpicked;//checks if u clicked the caards at the beginnng of the game
 private boolean cardclicked; //checks if you clicked the cards on the board
 private boolean joincards;//checks if the center has been clicked and shuffles the cards accordingly
-
+private boolean playerschosen;//checks if player has selected how many players 
 		
 public Game() {
 			new Thread(this).start();	
@@ -57,7 +58,10 @@ public Game() {
 			key =-1; 
 			x=0;
 			y=0;
-			
+			amountofplayers =0;
+			playerschosen =false;
+
+
 			Bg = new ImageIcon("Clue.png"); 
 			CardBackground = new ImageIcon("CardBackground.jpeg");
 
@@ -66,7 +70,7 @@ public Game() {
 
 
 			cardpicked= false; //checks if the temp card has been remove and if it has then to remove it from the pile and being drawn
-
+	
 
 			//the defualt cards integers
 			cardbasicx=411;
@@ -167,11 +171,12 @@ public Game() {
 		g2d.setFont( new Font("Broadway", Font.BOLD, 50));
 		
 		g2d.drawString("Hello!" , x, y);
+
 	
 		if(cardpicked==true){//checks if the center was pressed and if first card is being drawn
 			drawCard(g2d);//draws the card 
 		}
-		if(joincards==true){//checks if the cards need to be drawn
+		if(joincards==true && playerschosen== true){//checks if the cards need to be drawn
 			JoinCards(g2d);//puts all the cards together
 			joincards=false;//stops joining and shuffling card
 		}
@@ -204,20 +209,33 @@ public void JoinCards(Graphics g2d){
 
 	cardpicked=true;//draws the card at the top
 	
-
-	int i = 0;
-	int cardsSperated = cards.size()/4;// sets cardsSeperated equal to 1/4th of the amount of cards
-
-	if (i<= cardsSperated){//adds cards to the deck until the max amount in a deck is reached
-		deck.add(allCards.get(i));
-	i++;
-	}
-	if (i>=cardsSperated){
-		System.out.println(deck);
-		CheckForTempValue(deck);
-	}
+	 distributeCards(allCards);
+	CheckForTempValue(deck);
+	
 }
+public void distributeCards(ArrayList<Cards> allCards){
+ArrayList <ArrayList<Cards>> MasterDeck = new ArrayList<>();
 
+	for(int i = 0; i<amountofplayers; i++){// for each amount of players make a deck
+		ArrayList <Cards> playerdeck = new ArrayList<>();// makes the deck for the player
+		MasterDeck.add(playerdeck);//adds the deck to the master deck
+	}
+/*for(Cards all: allCards){
+
+}*/
+
+// for every card in the allCards arraylist it will take each deck add the top card, when it goes through every deck it checks if the original deck is empty, if it isnt it repeats the for loop
+	while(!allCards.isEmpty()){// while the original pile is not empty
+		for(ArrayList<Cards> eachDeck: MasterDeck ){ // the arraylist of player decks will sort for each deck
+			eachDeck.add(allCards.get(0)); //for each deck add the first in the allCards pile
+					allCards.remove(0);// remove the first in the all cards pile
+		}
+	}
+	if(allCards.isEmpty()){
+		System.out.println(MasterDeck);
+	}
+
+}
 
 
 public void CheckForTempValue(ArrayList<Cards> c ){
@@ -269,6 +287,24 @@ public void keyPressed(KeyEvent e) {
 	
 	key= e.getKeyCode();
 	System.out.println(key);
+
+if( playerschosen= false){
+	if(key ==1){
+		amountofplayers=1;
+		playerschosen= true;
+	} else if(key==2){
+		amountofplayers=2;
+		playerschosen= true;
+	}else if(key==3){
+		amountofplayers=3;
+		playerschosen= true;
+	}else if(key==4){
+		amountofplayers=4;
+		playerschosen= true;
+	} else{
+		System.out.println("Invalid Amount of Players");
+	}
+}
 	
 	
 	
