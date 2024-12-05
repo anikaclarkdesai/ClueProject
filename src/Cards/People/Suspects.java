@@ -13,8 +13,8 @@ public class Suspects extends Cards{
         super();
     } 
 
-    public Suspects( ImageIcon i){
-        super("Suspect", i);
+    public Suspects( String name,  ImageIcon i){
+        super(100, 100 ,name,  "Suspect", i);
     }
 
     public void drawChar(Graphics g2d) {
@@ -24,17 +24,6 @@ public class Suspects extends Cards{
 
     public String toString() {
         return "default Char";
-    }
-    public String health() {
-        return "health";
-    }
-    public String damge() {
-        return "damage: " ;
-    }
-    public String Weapon() {
-        return "Ability: ";
-    }
-
-    
    
+}
 }

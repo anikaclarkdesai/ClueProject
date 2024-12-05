@@ -5,12 +5,11 @@ import Cards.Cards;
 
 public class Weapons extends Cards{
 
-
-    public Weapons(String type, String name, ImageIcon i){
-        super(type, name, i);
-    }
-
     public Weapons() {
         //TODO Auto-generated constructor stub
+    }
+
+    public Weapons(String name,  ImageIcon i){
+        super(100, 100 ,name,  "Weapon", i);
     }
 }
