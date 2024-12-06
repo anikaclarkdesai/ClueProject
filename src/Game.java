@@ -48,7 +48,7 @@ private ImageIcon Bg, CardBackground;
 private boolean cardpicked;//checks if u clicked the caards at the beginnng of the game
 private boolean cardclicked; //checks if you clicked the cards on the board
 private boolean joincards;//checks if the center has been clicked and shuffles the cards accordingly
-private boolean playerschosen;//checks if player has selected how many players 
+private boolean playerschosen, shuffled;//checks if player has selected how many players //shuffled is to prevent reshuffling
 		
 public Game() {
 			new Thread(this).start();	
@@ -71,7 +71,7 @@ public Game() {
 
 
 			cardpicked= false; //checks if the temp card has been remove and if it has then to remove it from the pile and being drawn
-	
+			shuffled=false;//checks if it has been shuffled
 
 			//the defualt cards integers
 			cardbasicx=411;
@@ -177,10 +177,14 @@ public Game() {
 		if(cardpicked==true){//checks if the center was pressed and if first card is being drawn
 			drawCard(g2d);//draws the card 
 		}
-		if(joincards==true && playerschosen== true){//checks if the cards need to be drawn
+		if(joincards==true && playerschosen== true &&shuffled==false ){//checks if the cards need to be drawn
 			JoinCards(g2d);//puts all the cards together
 			joincards=false;//stops joining and shuffling card
 		}
+		if(shuffled==true){//checks if the cards have been joined and distributed
+			
+		}
+
 		if (cardclicked == true){
 		showcards(g2d);
 	}
@@ -228,28 +232,34 @@ ArrayList <ArrayList<Cards>> MasterDeck = new ArrayList<>();
 
 // for every card in the allCards arraylist it will take each deck add the top card, when it goes through every deck it checks if the original deck is empty, if it isnt it repeats the for loop
 	while(!allCards.isEmpty()){// while the original pile is not empty
-	//	for(ArrayList<Cards> eachDeck: MasterDeck ){// the arraylist of player decks will sort for each deck
-		//	System.out.println("MasterDeck size here"+eachDeck.size());
-			//for(int i=0; i<MasterDeck.g) 
-			//eachDeck.add(allCards.remove(0)); //for each deck add the first in the allCards pile
-					//allCards.remove(0);// remove the first in the all cards pile			
-}
+	
+		for(int i=0; i<MasterDeck.size(); i++){//for each card in the master deck
+			if(!allCards.isEmpty()){
+				MasterDeck.get(i).add(allCards.remove(0));//for each element in Master deck (the arraylist) add the first of allCards and remove that element
+			}else {
+				System.out.println("ran out of cards");
+			}
+		}
 	//}
-		
-	if(allCards.isEmpty()){
-		System.out.println(MasterDeck);
 	}
+	if(allCards.isEmpty()){
+		for(int j=0; j<MasterDeck.size(); j++){//for each card in the master deck
+			System.out.println("Player "+(j+1) + ":"+MasterDeck.get(j));
+	}
+		CheckForTempValue(MasterDeck.get(0));
+		shuffled=true; //says that the deck has been shuffled and cannot be shuffled again
+
+}
 
 }
 
 
 public void CheckForTempValue(ArrayList<Cards> c ){
-	if(cards.get("Rooms").contains(c)||cards.get("Suspects").contains(c)||cards.get("Weapons").contains(c)){ //checks if room card contains teh tempCard value
-	}
-	System.out.println(deck);
-			//ad player
-	//cardpicked=true;
-	//System.out.println("Rooms contain Temp Value");
+	//if(cards.get("Rooms").contains(c)||cards.get("Suspects").contains(c)||cards.get("Weapons").contains(c)){ //checks if room card contains teh tempCard value
+	//}
+
+
+	System.out.println("Player One");
 	}
 
 
@@ -295,11 +305,7 @@ public void keyPressed(KeyEvent e) {
 
 if(playerschosen==false){
 	
-
-	if(key ==49){
-		amountofplayers=1;
-		playerschosen= true;
-	} else if(key==50){
+	 if(key==50){
 		amountofplayers=2;
 		playerschosen= true;
 	}else if(key==51){
