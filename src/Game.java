@@ -31,14 +31,13 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.awt.event.*; 
-import SuspectImages;
+import java.awt.event.*;  
 
 public class Game  extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
 private BufferedImage back; 
 private int key, x, y;
-private int amountofplayers, diceOne, diceTwo; //how many people are playing
+private int amountofplayers, diceOne, diceTwo, diceCombo; //how many people are playing
 private int cardbasicx, cardbasicy, cardbasicw, cardbasich;//sets the x and y of the basic card
 private int icon1x, icon1y, icon1w, icon1h;//sets the x and y of the basic card
 private HashMap <String, ArrayList <Cards>> cards;
@@ -84,11 +83,12 @@ public Game() {
 			icon1y=363;
 			icon1w=45;
 			icon1h =37;
-			defaultImage= new ImageIcon("Donald.png");
+			defaultImage= new ImageIcon("C:\\Users\\s1777744\\OneDrive - Houston Independent School District\\Compsci HL\\Clue\\ClueProject\\SuspectImages\\Kamala.png");
 			
 			//default dice values
 			diceOne=0;
 			diceTwo=0;
+			diceCombo= 0;
 			//JoinCards();
 			drawMoveSpaces=false; //no spaces have been moved
 			//drawClickDice =false; //no one has clicked the dice
@@ -182,8 +182,6 @@ public Game() {
 
 		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
 		
-		g2d.drawImage(defaultImage.getImage(), icon1x, icon1y, icon1w, icon1h, this);
-	
 	
 		if(cardpicked==true){//checks if the center was pressed and if first card is being drawn
 			drawCard(g2d);//draws the card 
@@ -200,11 +198,13 @@ public Game() {
 				g2d.drawString("Click Space Bar to Roll Dice", 83,345 );
 			
 			}	
-			 if( drawMoveSpaces==true){
-					
+			if( drawMoveSpaces==true){//allows to draw how much is in the dice
 					g2d.drawString("Dice 1: "+diceOne+ " Dice 2: "+diceTwo, 83, 345);
-					g2d.drawString("Place Brick "+ (diceOne+ diceTwo)+ " Spaces" , x, y);
-					
+					g2d.drawString("Place Brick "+ (diceCombo)+ " Spaces" , x, y);
+						if(ongoingTurn==true){
+							makeMove(g2d);//allow the movement of charcters
+									
+							}
 			}
 			 	
 		}
@@ -329,11 +329,10 @@ public void rollDice(Graphics g2d){
 	 diceOne = (int) ((Math.random()* 6)+1); //rolls a dice number between 1 and 6
 	 diceTwo = (int) ((Math.random()* 6)+1); //rolls a second dice number between 1 and 6
 	
+	
 
 	System.out.println("Dice 1: "+diceOne+ " Dice 2: "+diceTwo);
-
-	
-	makeMove(g2d);
+	diceCombo=diceOne+diceTwo;
 		
 	diceRolled=false;
 
@@ -344,15 +343,13 @@ public void rollDice(Graphics g2d){
 		// TODO Auto-generated method stub
 	boolean moveMade;
 	moveMade=false;
-	if(moveMade=false){
-		
-		
-		}
 
-		if(moveMade ==true){
+	g2d.drawImage(defaultImage.getImage(), icon1x, icon1y, icon1w, icon1h, this);
+	
+	if(diceCombo==0){
+		    //drawMoveSpaces=false;
 			ongoingTurn=false;
-		
-		}
+	}
 		
 	 }
 	 private void spaceSize(){
@@ -391,18 +388,22 @@ if(playerschosen==false){//if the player size has not been chosen
 	} else{
 		System.out.println("Invalid Amount of Players");
 	}
-
+} 
 
 if(ongoingTurn==true){//if the turn has started
-	if (key==KeyEvent.VK_UP) {                
-		
-	} else if(key==KeyEvent.VK_DOWN) {                
-		  
-	} else if(key==KeyEvent.VK_LEFT) {                
-		 
-	} else if(key==KeyEvent.VK_RIGHT) {                
-		  
-	}
+	if (key==38) {         
+		System.out.println(ongoingTurn);       
+		icon1y += 50;
+		diceCombo-=1;
+	} else if(key==40) {                
+		icon1y += 50;
+		diceCombo-=1;
+	} else if(key==37) {                
+		icon1x -= 50;
+		diceCombo-=1;
+	} else if(key==39) {                
+		icon1x += 50;
+		diceCombo-=1;
 	}
 }
 
