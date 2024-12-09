@@ -32,23 +32,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.awt.event.*; 
-
+import SuspectImages;
 
 public class Game  extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
-
 private BufferedImage back; 
 private int key, x, y;
-private int amountofplayers; //how many people are playing
+private int amountofplayers, diceOne, diceTwo; //how many people are playing
 private int cardbasicx, cardbasicy, cardbasicw, cardbasich;//sets the x and y of the basic card
+private int icon1x, icon1y, icon1w, icon1h;//sets the x and y of the basic card
 private HashMap <String, ArrayList <Cards>> cards;
 public ArrayList <Cards> deck;
 private Cards tempCard; //speaks to the card class so I can access, tempCard gets the top card 
-private ImageIcon Bg, CardBackground;
+private ImageIcon Bg, CardBackground, defaultImage;
 private boolean cardpicked;//checks if u clicked the caards at the beginnng of the game
 private boolean cardclicked; //checks if you clicked the cards on the board
 private boolean joincards;//checks if the center has been clicked and shuffles the cards accordingly
 private boolean playerschosen, shuffled;//checks if player has selected how many players //shuffled is to prevent reshuffling
+private boolean ongoingTurn, diceRolled, drawMoveSpaces, drawClickDice, rollOnlyOnce;//checks if player one is going or not //checks for teh dice roll
 		
 public Game() {
 			new Thread(this).start();	
@@ -78,9 +79,20 @@ public Game() {
 				cardbasicy=363;
 				cardbasicw=186;
 				cardbasich=243;
-
+			
+			icon1x=411;
+			icon1y=363;
+			icon1w=45;
+			icon1h =37;
+			defaultImage= new ImageIcon("Donald.png");
+			
+			//default dice values
+			diceOne=0;
+			diceTwo=0;
 			//JoinCards();
-		
+			drawMoveSpaces=false; //no spaces have been moved
+			//drawClickDice =false; //no one has clicked the dice
+			rollOnlyOnce = false; 
 		
 	}
 	public HashMap <String, ArrayList <Cards>> setCards(){
@@ -168,11 +180,10 @@ public Game() {
 		g2d.clearRect(0,0,1400, 1000);
 		g2d.drawImage(Bg.getImage(), 0,0, 1000, 975, this );
 
-
-		g2d.setFont( new Font("Broadway", Font.BOLD, 50));
+		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
 		
-		g2d.drawString("Hello!" , x, y);
-
+		g2d.drawImage(defaultImage.getImage(), icon1x, icon1y, icon1w, icon1h, this);
+	
 	
 		if(cardpicked==true){//checks if the center was pressed and if first card is being drawn
 			drawCard(g2d);//draws the card 
@@ -182,12 +193,26 @@ public Game() {
 			joincards=false;//stops joining and shuffling card
 		}
 		if(shuffled==true){//checks if the cards have been joined and distributed
+			BeginGame(g2d);
+			//diceRolled =false;//sets that the roll has not started
 			
+			if(drawClickDice==true&& drawMoveSpaces==false){//draws click space to move dice when the dice havent been
+				g2d.drawString("Click Space Bar to Roll Dice", 83,345 );
+			
+			}	
+			 if( drawMoveSpaces==true){
+					
+					g2d.drawString("Dice 1: "+diceOne+ " Dice 2: "+diceTwo, 83, 345);
+					g2d.drawString("Place Brick "+ (diceOne+ diceTwo)+ " Spaces" , x, y);
+					
+			}
+			 	
 		}
 
 		if (cardclicked == true){
 		showcards(g2d);
 	}
+
 twoDgraph.drawImage(back, null, 0, 0);
 
 }
@@ -282,10 +307,59 @@ private void showcards(Graphics g2d){
 }
 
 
+//start of game mechanics
 
+public void BeginGame(Graphics g2d){
+	ongoingTurn=true;//sets that a turn has starteed
+	drawClickDice=true;
+			
+	g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
+	
+    if(diceRolled==true){
+		rollDice(g2d);//runs the code that will roll the dice}
+		drawClickDice=false;
+		
+	}else {
+		
+	}
+	
 
+}
+public void rollDice(Graphics g2d){
+	 diceOne = (int) ((Math.random()* 6)+1); //rolls a dice number between 1 and 6
+	 diceTwo = (int) ((Math.random()* 6)+1); //rolls a second dice number between 1 and 6
+	
 
-//DO NOT DELETE
+	System.out.println("Dice 1: "+diceOne+ " Dice 2: "+diceTwo);
+
+	
+	makeMove(g2d);
+		
+	diceRolled=false;
+
+		
+		}
+	 
+	 private void makeMove(Graphics g2d) {
+		// TODO Auto-generated method stub
+	boolean moveMade;
+	moveMade=false;
+	if(moveMade=false){
+		
+		
+		}
+
+		if(moveMade ==true){
+			ongoingTurn=false;
+		
+		}
+		
+	 }
+	 private void spaceSize(){
+		//x+45; 
+		//y+37
+	 }
+	 //DO NOT DELETE
 @Override
 public void keyTyped(KeyEvent e) {
 	// TODO Auto-generated method stub
@@ -299,11 +373,11 @@ public void keyTyped(KeyEvent e) {
 @Override
 public void keyPressed(KeyEvent e) {
 	// TODO Auto-generated method stub
-	
+
 	key= e.getKeyCode();
 	System.out.println(key);
 
-if(playerschosen==false){
+if(playerschosen==false){//if the player size has not been chosen
 	
 	 if(key==50){
 		amountofplayers=2;
@@ -317,6 +391,29 @@ if(playerschosen==false){
 	} else{
 		System.out.println("Invalid Amount of Players");
 	}
+
+
+if(ongoingTurn==true){//if the turn has started
+	if (key==KeyEvent.VK_UP) {                
+		
+	} else if(key==KeyEvent.VK_DOWN) {                
+		  
+	} else if(key==KeyEvent.VK_LEFT) {                
+		 
+	} else if(key==KeyEvent.VK_RIGHT) {                
+		  
+	}
+	}
+}
+
+
+
+if(shuffled==true && key==32 && ongoingTurn ==true && diceRolled==false && rollOnlyOnce==false ){ //if the cards have already been shuffled, space bar was pressed, it is player ones turn and they have not rolled the dice
+	diceRolled=true;
+	//drawClickDice=false;
+	drawMoveSpaces=true;
+	rollOnlyOnce=true;
+	
 }
 }
 	

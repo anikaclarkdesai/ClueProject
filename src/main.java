@@ -7,7 +7,7 @@ public class main extends JFrame{
 	private static final int HEIGHT=1000;
 	
 	public main () {
-		super("KeyListener Demo");
+		super("Red, White, and Clue");
 		setSize(WIDTH, HEIGHT);
 		Game play = new Game();
 		((Component) play).setFocusable(true);
