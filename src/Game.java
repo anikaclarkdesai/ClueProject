@@ -1,5 +1,6 @@
 
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 
 import Cards.Cards;
 import Cards.People.AOC;
@@ -31,6 +32,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.awt.event.*;  
 
 public class Game  extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
@@ -41,6 +43,7 @@ private int amountofplayers, diceOne, diceTwo, diceCombo; //how many people are 
 private int cardbasicx, cardbasicy, cardbasicw, cardbasich;//sets the x and y of the basic card
 private int icon1x, icon1y, icon1w, icon1h;//sets the x and y of the basic card
 private HashMap <String, ArrayList <Cards>> cards;
+private LinkedList <String> moves; //List of player movements
 public ArrayList <Cards> deck;
 private Cards tempCard; //speaks to the card class so I can access, tempCard gets the top card 
 private ImageIcon Bg, CardBackground, defaultImage;
@@ -49,7 +52,8 @@ private boolean cardclicked; //checks if you clicked the cards on the board
 private boolean joincards;//checks if the center has been clicked and shuffles the cards accordingly
 private boolean playerschosen, shuffled;//checks if player has selected how many players //shuffled is to prevent reshuffling
 private boolean ongoingTurn, diceRolled, drawMoveSpaces, drawClickDice, rollOnlyOnce;//checks if player one is going or not //checks for teh dice roll
-		
+private boolean Up, down, left, right, wentAboveOGValue; //handles for the movement of characters
+
 public Game() {
 			new Thread(this).start();	
 			this.addKeyListener(this);
@@ -68,6 +72,7 @@ public Game() {
 
 			cards = setCards();	//calls the all the cards in the hashmap
 			deck = deck(); //calls all the cards in a players hand
+			moves = new LinkedList<String>();//creates a linked list of moves made by a character
 
 
 			cardpicked= false; //checks if the temp card has been remove and if it has then to remove it from the pile and being drawn
@@ -85,6 +90,14 @@ public Game() {
 			icon1h =37;
 			defaultImage= new ImageIcon("C:\\Users\\s1777744\\OneDrive - Houston Independent School District\\Compsci HL\\Clue\\ClueProject\\SuspectImages\\Kamala.png");
 			
+			//no moves have been made
+			right=false; //says that down just moved
+			//these are not the move just made
+			Up=false;
+			left= false;
+			down=false;
+		
+
 			//default dice values
 			diceOne=0;
 			diceTwo=0;
@@ -315,6 +328,8 @@ public void BeginGame(Graphics g2d){
 			
 	g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
 	
+	
+
     if(diceRolled==true){
 		rollDice(g2d);//runs the code that will roll the dice}
 		drawClickDice=false;
@@ -323,6 +338,7 @@ public void BeginGame(Graphics g2d){
 		
 	}
 	
+	ClueSheet(g2d);
 
 }
 public void rollDice(Graphics g2d){
@@ -330,7 +346,7 @@ public void rollDice(Graphics g2d){
 	 diceTwo = (int) ((Math.random()* 6)+1); //rolls a second dice number between 1 and 6
 	
 	
-
+	moves.clear();
 	System.out.println("Dice 1: "+diceOne+ " Dice 2: "+diceTwo);
 	diceCombo=diceOne+diceTwo;
 		
@@ -338,20 +354,101 @@ public void rollDice(Graphics g2d){
 
 		
 		}
+
+public void ClueSheet(Graphics g2d){
+	//draw the suspects
+	int xval= 1005, yval=45, yvaltext=100;
+	int xval1= 1005+140, yval1=45;
+	int xval2= 1005+140+140, yval2=45;
+	Color Chestnut = new Color(96,60,20);
+	Color PeachCream = new Color(246,233,191);
+
+	g2d.setColor(Chestnut);
+	g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
+	g2d.drawString("Notebook", 1065, 35);
+
+	for(Cards suspect: setSuspects()){//for each suspect draw a rectangle and write their name
+		g2d.setColor(Chestnut);
+		g2d.fillRoundRect(xval,yval,100, 45, 20,20);
+
+		g2d.setColor(PeachCream);
+		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 15));
+		g2d.drawString(suspect.getName(), xval, yval+30);
+		yval+=50;
+	}
+
+	
+	for(Cards weapon: setWeapons()){//for each weapon draw a rectangle and write their name
+		g2d.setColor(Chestnut);
+		g2d.fillRoundRect(xval1,yval1,100, 45, 20,20);
+
+		g2d.setColor(PeachCream);
+		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 15));
+		g2d.drawString(weapon.getName(), xval1, yval1+30);
+		yval1+=50;
+	}
+		
+	for(Cards rooms: setRooms()){//for each room draw a rectangle and write their name
+		g2d.setColor(Chestnut);
+		g2d.fillRoundRect(xval2,yval2,100, 45, 20,20);
+
+		g2d.setColor(PeachCream);
+		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 15));
+		g2d.drawString(rooms.getName(), xval2, yval2+30);
+		yval2+=50;
+	}
+
+
+
+
+	g2d.setColor(Color.black);
+	g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
+}
 	 
 	 private void makeMove(Graphics g2d) {
 		// TODO Auto-generated method stub
 	boolean moveMade;
 	moveMade=false;
-
+	int i= diceCombo;//sets integer = to the initial dice combo
+	
 	g2d.drawImage(defaultImage.getImage(), icon1x, icon1y, icon1w, icon1h, this);
 	
-	if(diceCombo==0){
+	if(diceCombo==0){//no more dice value
 		    //drawMoveSpaces=false;
 			ongoingTurn=false;
 	}
-		
-	 }
+
+	WithinRoomBounds(g2d);
+	/* 
+	if(diceCombo>=i){//if dice combo goes above the original dice combo value
+		wentAboveOGValue=true;
+	}*/
+
+}
+
+public void WithinRoomBounds(Graphics g2d){
+	/* 
+	//for amazon warehouse
+	if((icon1x>= 247) &&(icon1x>=255) && (icon1x+icon1w<= 280 ) &&(icon1y+icon1h>=280)){
+		System.out.println("entered amazon warehouse");
+	}
+	//for pennsylvania
+	if(((icon1x>= 305) &&(icon1x>=470) && (icon1x+icon1w<= 343) &&(icon1y+icon1h>=505))||
+	 ((icon1x>= 245) &&(icon1x>=587) && (icon1x+icon1w<= 301) &&(icon1y+icon1h>=625))){
+		System.out.println("entered  pennsylvania");
+	}
+	//for school nurse
+	if((icon1x>= 270) &&(icon1x>=740) && (icon1x+icon1w<= 308 ) &&(icon1y+icon1h>=763)){
+		System.out.println("school nurse");
+	}
+	//for border wall
+	if(((icon1x>= 443) &&(icon1x>=674) && (icon1x+icon1w<= 567) &&(icon1y+icon1h>=706))||
+	 ((icon1x>= 612) &&(icon1x>=727) && (icon1x+icon1w<= 656) &&(icon1y+icon1h>=759))){
+		System.out.println("entered the border");
+	}
+	//for the captial; did not fin
+*/
+}
 	 private void spaceSize(){
 		//x+45; 
 		//y+37
@@ -373,7 +470,14 @@ public void keyPressed(KeyEvent e) {
 
 	key= e.getKeyCode();
 	System.out.println(key);
-
+	
+	
+	/* 
+	down=false;
+	Up=false;
+	left= false;
+	right=false;
+*/
 if(playerschosen==false){//if the player size has not been chosen
 	
 	 if(key==50){
@@ -391,29 +495,101 @@ if(playerschosen==false){//if the player size has not been chosen
 } 
 
 if(ongoingTurn==true){//if the turn has started
-	if (key==38) {         
-		System.out.println(ongoingTurn);       
+//	wentAboveOGValue=false; //did not originally go over original value
+	if (key==38) {       //up arrow  
+		//System.out.println(ongoingTurn);       
+		icon1y -= 50;
+		diceCombo-=1;
+		
+		Up=true; //says that down just moved
+		//these are not the move just made
+		down=false;
+		left= false;
+		right=false;
+		moves.add("up");
+
+	} else if(key==40) {  //down arrow              
 		icon1y += 50;
 		diceCombo-=1;
-	} else if(key==40) {                
-		icon1y += 50;
-		diceCombo-=1;
-	} else if(key==37) {                
+
+		down=true; //says that down just moved
+		//these are not the move just made
+		Up=false;
+		left= false;
+		right=false;
+		moves.add("down");
+	} else if(key==37) {    //left arrow            
 		icon1x -= 50;
 		diceCombo-=1;
-	} else if(key==39) {                
+
+		left=true; //says that down just moved
+		//these are not the move just made
+		Up=false;
+		down= false;
+		right=false;
+		moves.add("left");
+	} else if(key==39) {  //right arrow              
 		icon1x += 50;
 		diceCombo-=1;
+
+		right=true; //says that down just moved
+		//these are not the move just made
+		Up=false;
+		left= false;
+		down=false;
+		moves.add("right");
+	} 
+	
+	System.out.println("up is"+ Up);
+   //while(diceCombo<diceTwo+diceOne){//makes sure that dicecombo cannot go above its original value
+/*if(wentAboveOGValue==false)	{
+   if (Up==true&&key==8) {       //up arrow  
+				//System.out.println(ongoingTurn);       
+				icon1y += 50;
+				diceCombo+=1;
+	} else if(down==true&&key==8) {  //down arrow              
+				icon1y -= 50;
+				diceCombo+=1;
+	} else if(left==true&&key==8) {    //left arrow            
+				icon1x += 50;
+				diceCombo+=1;
+	} else if(right==true&&key==8) {  //right arrow              
+			icon1x -= 50;
+				
+			diceCombo+=1;
+		}
+   }*/
+
+   if (key == 8) {//backspace key
+	if (!moves.isEmpty()) {//if there are moves in the move list; so if dicecombo is max there will be nothing in the list
+		String lastmove = moves.pop();//remove the most recent move
+		if (lastmove.equals("up")) {//
+			icon1y += 50;
+			diceCombo+=1;
+		} else if (lastmove.equals("down")) {
+			icon1y -= 50;
+			diceCombo+=1;
+		} else if (lastmove.equals("left")) {
+			icon1x += 50;
+			diceCombo+=1;
+		} else if (lastmove.equals("right")) {
+			icon1x -= 50;
+			diceCombo+=1;
+		}
 	}
+   }
+
 }
+//}
+	
 
 
 
 if(shuffled==true && key==32 && ongoingTurn ==true && diceRolled==false && rollOnlyOnce==false ){ //if the cards have already been shuffled, space bar was pressed, it is player ones turn and they have not rolled the dice
-	diceRolled=true;
+	diceRolled=true;//the dice has been rolled
 	//drawClickDice=false;
-	drawMoveSpaces=true;
-	rollOnlyOnce=true;
+	drawMoveSpaces=true;//draw the spaces 
+	rollOnlyOnce=true;//make sure it only rolls one time
 	
 }
 }
@@ -451,7 +627,7 @@ public void mouseMoved(MouseEvent arg0) {
 @Override
 public void mouseClicked(MouseEvent arg0) {
 	// TODO Auto-generated method stub
-	System.out.println("you clicked at"+arg0.getX()+ arg0.getY());
+	System.out.println("x="+arg0.getX()+ " y=" +arg0.getY());
 	x=arg0.getX();
 	y=arg0.getY();
 
