@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.awt.event.*;  
+import java.awt.event.*; 
 
 public class Game  extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
@@ -45,14 +45,16 @@ private int icon1x, icon1y, icon1w, icon1h;//sets the x and y of the basic card
 private HashMap <String, ArrayList <Cards>> cards;
 private LinkedList <String> moves; //List of player movements
 public ArrayList <Cards> deck;
+public HashMap <Rectangle, Cards> pickChar;
 private Cards tempCard; //speaks to the card class so I can access, tempCard gets the top card 
-private ImageIcon Bg, CardBackground, defaultImage;
+private ImageIcon Bg, CardBackground, defaultImage, AOC, Bernie, Donald, Kamala, Putin, Ted, Tim;
 private boolean cardpicked;//checks if u clicked the caards at the beginnng of the game
 private boolean cardclicked; //checks if you clicked the cards on the board
 private boolean joincards;//checks if the center has been clicked and shuffles the cards accordingly
-private boolean playerschosen, shuffled;//checks if player has selected how many players //shuffled is to prevent reshuffling
+private boolean playerschosen, shuffled, CharacterPicked;//checks if player has selected how many players //shuffled is to prevent reshuffling
 private boolean ongoingTurn, diceRolled, drawMoveSpaces, drawClickDice, rollOnlyOnce;//checks if player one is going or not //checks for teh dice roll
 private boolean Up, down, left, right, wentAboveOGValue; //handles for the movement of characters
+private Rectangle rectforchoice;//rectangle for the character choice
 
 public Game() {
 			new Thread(this).start();	
@@ -88,8 +90,20 @@ public Game() {
 			icon1y=363;
 			icon1w=45;
 			icon1h =37;
-			defaultImage= new ImageIcon("C:\\Users\\s1777744\\OneDrive - Houston Independent School District\\Compsci HL\\Clue\\ClueProject\\SuspectImages\\Kamala.png");
+			defaultImage= new ImageIcon("SuspectImages\\AOC.jpg");
 			
+
+			//character imagese
+			AOC= new ImageIcon("SuspectImages\\AOC.jpg");
+			Bernie= new ImageIcon("SuspectImages\\Bernie.jpg");
+			Donald= new ImageIcon("SuspectImages\\Donald.jpg");
+			Kamala= new ImageIcon("SuspectImages\\Kamala.jpg");
+			Putin= new ImageIcon("SuspectImages\\Putin.jpg");
+			Ted= new ImageIcon("SuspectImages\\Ted.jpg");
+			Tim= new ImageIcon("SuspectImages\\TimWalz.jpg");
+
+			CharacterPicked=false;
+			pickChar= new HashMap<Rectangle, Cards>();
 			//no moves have been made
 			right=false; //says that down just moved
 			//these are not the move just made
@@ -162,6 +176,7 @@ public Game() {
 	}
 
 
+
 			public void run()
 	{
 		try
@@ -193,9 +208,13 @@ public Game() {
 		g2d.clearRect(0,0,1400, 1000);
 		g2d.drawImage(Bg.getImage(), 0,0, 1000, 975, this );
 
+		//g2d.drawImage(defaultImage.getImage(), 100, 100, 500, 500, this);
 		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
 		
-	
+		if(CharacterPicked==false)
+			g2d.drawString("Pick a Character", 83,345 );
+			choosePlayer(g2d);//chooses the player
+
 		if(cardpicked==true){//checks if the center was pressed and if first card is being drawn
 			drawCard(g2d);//draws the card 
 		}
@@ -213,13 +232,13 @@ public Game() {
 			}	
 			if( drawMoveSpaces==true){//allows to draw how much is in the dice
 					g2d.drawString("Dice 1: "+diceOne+ " Dice 2: "+diceTwo, 83, 345);
-					g2d.drawString("Place Brick "+ (diceCombo)+ " Spaces" , x, y);
+					g2d.drawString("Place Charcter "+ (diceCombo)+ " Spaces" , x, y);
 						if(ongoingTurn==true){
 							makeMove(g2d);//allow the movement of charcters
 									
 							}
 			}
-			 	
+				
 		}
 
 		if (cardclicked == true){
@@ -229,7 +248,27 @@ public Game() {
 twoDgraph.drawImage(back, null, 0, 0);
 
 }
+public void choosePlayer(Graphics g2d){
+	int xval = 0;
+	int yval=100;
+	for(Cards suspect: setSuspects()){//for each suspect in the suspects arraylist
+		g2d.setColor(Color.gray);//sets the color
+		g2d.fillRoundRect(xval, yval-20, 100, 120,20,20);//draws a rectangle
+		
+		rectforchoice = new Rectangle(xval, yval, 100, 100);//creates new rectangle
 
+		g2d.drawImage(suspect.getImage(), xval, yval, 100, 100, this);//draws the suspect in the top left corner
+		
+		
+		pickChar.put(rectforchoice, suspect);//puts the suspect in the rectangle
+
+		xval+=100;
+
+	}
+	//System.out.println(pickChar);
+
+
+}
 
 public void JoinCards(Graphics g2d){
 	ArrayList <Cards> allCards = new ArrayList<>(); //creates arraylist of all cards
@@ -330,7 +369,7 @@ public void BeginGame(Graphics g2d){
 	
 	
 
-    if(diceRolled==true){
+	if(diceRolled==true){
 		rollDice(g2d);//runs the code that will roll the dice}
 		drawClickDice=false;
 		
@@ -414,7 +453,7 @@ public void ClueSheet(Graphics g2d){
 	g2d.drawImage(defaultImage.getImage(), icon1x, icon1y, icon1w, icon1h, this);
 	
 	if(diceCombo==0){//no more dice value
-		    //drawMoveSpaces=false;
+			//drawMoveSpaces=false;
 			ongoingTurn=false;
 	}
 
@@ -620,6 +659,11 @@ public void mouseMoved(MouseEvent arg0) {
 	// TODO Auto-generated method stub
 	x=arg0.getX();
 	y=arg0.getY();
+	Rectangle MouseRect = new Rectangle(x, y, 1, 1);
+
+	if(pickChar.get(rectforchoice).intersects(MouseRect)){//checks if the mouse is over the card
+		CharacterPicked=true;
+	}
 }
 
 

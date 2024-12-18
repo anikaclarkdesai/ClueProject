@@ -17,6 +17,7 @@ public class Suspects extends Cards{
         super(100, 100 ,name,  "Suspect", i);
     }
 /*
+
     public void drawChar(Graphics g2d) {
         g2d.drawImage(img.getImage(), x, y, w,h, null);
         

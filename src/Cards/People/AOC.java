@@ -6,7 +6,7 @@ public class AOC extends Suspects{
 
     
     public AOC(){
-        super("AOC", new ImageIcon("AOC.png"));
+        super("AOC", new ImageIcon("SuspectImages\\AOC.jpg"));
     }
 
 }

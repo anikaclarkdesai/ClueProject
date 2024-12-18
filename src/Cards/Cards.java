@@ -2,6 +2,7 @@ package Cards;
 
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
@@ -35,7 +36,7 @@ public class Cards {
             h= 100;
             this.name = name;//name of the character, weapon, or room
             this.type = typeofCard; //imports the type of card it is
-            img= i; //imports the image 
+            this.img= i; //imports the image 
         }
       
         /*    public void setType(Cards type){//acts to set the type of cards
@@ -65,6 +66,15 @@ public class Cards {
     }
 
 
+    public Image getImage() {
+        // TODO Auto-generated method stub
+        return img.getImage();
+    }
+    public void setImage(ImageIcon img) {
+        // TODO Auto-generated method stub
+        this.img = img;
+    }
+
 
 
 
@@ -73,6 +83,11 @@ public class Cards {
         g2d.setFont( new Font("Baskerville Old Face", Font.PLAIN, 30));
         g2d.drawString(name, x+50, y+200);
         g2d.drawString(type, x+ 50, y+280);
+    }
+
+    public boolean intersects(int x2, int y2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'intersects'");
     }
 }
 

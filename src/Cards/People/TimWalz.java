@@ -6,6 +6,6 @@ public class TimWalz extends Suspects{
 
     
     public TimWalz(){
-        super("Tim Walz", new ImageIcon("TimWalz.jpg"));
+        super("Tim Walz", new ImageIcon("SuspectImages\\TimWalz.jpg"));
     }
 }
