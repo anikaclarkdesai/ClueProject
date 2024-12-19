@@ -3,6 +3,7 @@ package Cards;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.image.ImageObserver;
 import java.util.ArrayList;
 
@@ -85,10 +86,6 @@ public class Cards {
         g2d.drawString(type, x+ 50, y+280);
     }
 
-    public boolean intersects(int x2, int y2) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'intersects'");
-    }
 }
 
 
