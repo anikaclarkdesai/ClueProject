@@ -1,4 +1,5 @@
 
+import javax.sound.midi.SysexMessage;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
 
@@ -46,7 +47,7 @@ private HashMap <String, ArrayList <Cards>> cards;
 private LinkedList <String> moves; //List of player movements
 public ArrayList <Cards> deck;
 public HashMap <Rectangle, Cards> pickChar;
-private Cards tempCard; //speaks to the card class so I can access, tempCard gets the top card 
+private Cards tempCard, ChosenCharcater; //speaks to the card class so I can access, tempCard gets the top card //shos the character chosen by the player
 private ImageIcon Bg, CardBackground, defaultImage, AOC, Bernie, Donald, Kamala, Putin, Ted, Tim;
 private boolean cardpicked;//checks if u clicked the caards at the beginnng of the game
 private boolean cardclicked; //checks if you clicked the cards on the board
@@ -91,6 +92,8 @@ public Game() {
 			icon1w=45;
 			icon1h =37;
 			defaultImage= new ImageIcon("SuspectImages\\AOC.jpg");
+
+			
 			
 
 			//character imagese
@@ -211,14 +214,16 @@ public Game() {
 		//g2d.drawImage(defaultImage.getImage(), 100, 100, 500, 500, this);
 		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
 		
-		if(CharacterPicked==false)
+		if(CharacterPicked==false){
 			g2d.drawString("Pick a Character", 83,345 );
 			choosePlayer(g2d);//chooses the player
-
+	}else if(CharacterPicked==true){
+		PlayerWasChosen(ChosenCharcater, g2d);
+	}
 		if(cardpicked==true){//checks if the center was pressed and if first card is being drawn
 			drawCard(g2d);//draws the card 
 		}
-		if(joincards==true && playerschosen== true &&shuffled==false ){//checks if the cards need to be drawn
+		if(joincards==true && playerschosen== true &&shuffled==false &&CharacterPicked==true ){//checks if the cards need to be drawn
 			JoinCards(g2d);//puts all the cards together
 			joincards=false;//stops joining and shuffling card
 		}
@@ -252,24 +257,50 @@ public void choosePlayer(Graphics g2d){
 	int xval = 0;
 	int yval=100;
 	for(Cards suspect: setSuspects()){//for each suspect in the suspects arraylist
-		g2d.setColor(Color.gray);//sets the color
-		g2d.fillRoundRect(xval, yval-20, 100, 120,20,20);//draws a rectangle
-		
-		rectforchoice = new Rectangle(xval, yval, 100, 100);//creates new rectangle
+		if(CharacterPicked==false){
+	
+			g2d.setColor(Color.gray);//sets the color
+			g2d.fillRoundRect(xval, yval-20, 100, 120,20,20);//draws a rectangle
+			
+			rectforchoice = new Rectangle(xval, yval, 100, 100);//creates new rectangle
 
-		g2d.drawImage(suspect.getImage(), xval, yval, 100, 100, this);//draws the suspect in the top left corner
-		
-		
-		pickChar.put(rectforchoice, suspect);//puts the suspect in the rectangle
+			g2d.drawImage(suspect.getImage(), xval, yval, 100, 100, this);//draws the suspect in the top left corner
+			
+			
+			pickChar.put(rectforchoice, suspect);//puts the suspect in the rectangle
 
-		xval+=100;
+			xval+=100;
 
+	
+		}else if(CharacterPicked==true){
+			g2d.clearRect(xval, yval, 100, 100);
+			xval+=100;
 	}
 	//System.out.println(pickChar);
-
-
 }
 
+}
+public void PlayerWasChosen(Cards ChosenChar, Graphics g2d){
+	//System.out.println(ChosenChar);
+	String characternamestring= ChosenChar.getName();//gets the name of the charcter
+	int centered =(getWidth()-((characternamestring.length())*40)); //center the string
+
+
+	g2d.setColor(Color.DARK_GRAY);//sets the color
+	g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 25));
+
+	g2d.drawString("Your Character: ", 1200, 719);//draw the charcter name 
+	g2d.drawImage(CardBackground.getImage(),1201, 725, 186,243, this );//draw the default character background
+	g2d.drawImage(ChosenChar.getImage(), 1215,752,(1371-1215),125,this);//draw the charcter image
+
+
+
+	g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 25));
+	//System.out.println("Xvalue of name: "+ centered);//checks what the x value of the string is
+	g2d.drawString(characternamestring, 1215, 900);
+	
+
+}
 public void JoinCards(Graphics g2d){
 	ArrayList <Cards> allCards = new ArrayList<>(); //creates arraylist of all cards
 
@@ -659,11 +690,7 @@ public void mouseMoved(MouseEvent arg0) {
 	// TODO Auto-generated method stub
 	x=arg0.getX();
 	y=arg0.getY();
-	Rectangle MouseRect = new Rectangle(x, y, 1, 1);
 
-	if(pickChar.get(rectforchoice).intersects(MouseRect)){//checks if the mouse is over the card
-		CharacterPicked=true;
-	}
 }
 
 
@@ -674,7 +701,7 @@ public void mouseClicked(MouseEvent arg0) {
 	System.out.println("x="+arg0.getX()+ " y=" +arg0.getY());
 	x=arg0.getX();
 	y=arg0.getY();
-
+	Rectangle MouseRect = new Rectangle(x, y, 1, 1);//new rectangle to set intersects into characters
 
 	if((x>=413 && x<= 596)&&(y>=367 && y<=610)){//checks if the center of the board
 		joincards=true;//joins all the cards and shuffles them
@@ -682,6 +709,17 @@ public void mouseClicked(MouseEvent arg0) {
 	
 	if((x>= cardbasicx && x< (cardbasicx+ cardbasicw)) &&( y> cardbasicy && y < cardbasicy +cardbasich)){ //checks where the card was drawn
 		cardclicked =true;
+	}
+
+
+	for (Rectangle r : pickChar.keySet()) {//for the rectangles in the rectangles cards hashmaps
+		if(r.intersects(MouseRect)){//checks if the mouse click the card
+			System.out.println("Selected "+ r);//the card that is chosen
+			 ChosenCharcater= pickChar.get(r);//the character chosen == the rectangle that was chosen
+			 
+			 CharacterPicked=true;//the charcter was chosen
+		}		
+
 	}
 }
 
