@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "type": "java",
+            "name": "main",
+            "request": "launch",
+            "mainClass": "main",
+            "projectName": "ClueProject_5e3ae5b2"
+        },
+        {
             "type": "jdk",
             "request": "launch",
             "name": "Launch Java App"

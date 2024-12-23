@@ -6,6 +6,6 @@ public class TedCruz extends Suspects{
 
     
     public TedCruz(){
-        super("Ted Cruz", new ImageIcon("SuspectImages\\Ted.jpg"));
+        super("Ted Cruz", new ImageIcon("SuspectImages\\Ted.png"));
     }
 }
