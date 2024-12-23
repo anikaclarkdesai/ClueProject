@@ -216,11 +216,11 @@ public Game() {
 		//g2d.drawImage(defaultImage.getImage(), 100, 100, 500, 500, this);
 		g2d.setFont( new Font("Baskerville Old Face", Font.BOLD, 50));
 		
-		if(CharacterPicked==false){
+		if(CharacterPicked==false){//if the character icon has not been picked
 			g2d.drawString("Pick a Character", 83,345 );
 			choosePlayer(g2d);//chooses the player
 	}else if(CharacterPicked==true){
-		PlayerWasChosen(ChosenCharcater, g2d);
+		PlayerWasChosen(ChosenCharcater, g2d);//go to the player is chosen method and draws the character selcted
 	}
 		if(cardpicked==true){//checks if the center was pressed and if first card is being drawn
 			drawCard(g2d);//draws the card 
@@ -301,7 +301,11 @@ public void PlayerWasChosen(Cards ChosenChar, Graphics g2d){
 	//System.out.println("Xvalue of name: "+ centered);//checks what the x value of the string is
 	g2d.drawString(characternamestring, 1215, 900);
 	
+	if(shuffled==false){
+		g2d.drawString("Select Number Of Players by Pressing 1-4", 300,320);
+		g2d.drawString("Press Here to Draw Cards", 370,360 );
 
+	}
 }
 public void JoinCards(Graphics g2d){
 	ArrayList <Cards> allCards = new ArrayList<>(); //creates arraylist of all cards
@@ -550,67 +554,77 @@ public void keyPressed(KeyEvent e) {
 	left= false;
 	right=false;
 */
-if(playerschosen==false){//if the player size has not been chosen
-	
-	 if(key==50){
-		amountofplayers=2;
-		playerschosen= true;
-	}else if(key==51){
-		amountofplayers=3;
-		playerschosen= true;
-	}else if(key==52){
-		amountofplayers=4;
-		playerschosen= true;
-	} else{
-		System.out.println("Invalid Amount of Players");
-	}
+if(playerschosen==false){ //if the player size has not been chosen
+            switch (key) {
+                case 50:
+                    amountofplayers=2;
+                    playerschosen= true;
+                    break;
+                case 51:
+                    amountofplayers=3;
+                    playerschosen= true;
+                    break;
+                case 52:
+                    amountofplayers=4;
+                    playerschosen= true;
+                    break;
+                default:
+                    System.out.println("Invalid Amount of Players");
+                    break;
+            }
 } 
 
-if(ongoingTurn==true){//if the turn has started
+if(ongoingTurn==true){ //if the turn has started
 //	wentAboveOGValue=false; //did not originally go over original value
-	if (key==38) {       //up arrow  
-		//System.out.println(ongoingTurn);       
-		icon1y -= 50;
-		diceCombo-=1;
-		
-		Up=true; //says that down just moved
-		//these are not the move just made
-		down=false;
-		left= false;
-		right=false;
-		moves.add("up");
-
-	} else if(key==40) {  //down arrow              
-		icon1y += 50;
-		diceCombo-=1;
-
-		down=true; //says that down just moved
-		//these are not the move just made
-		Up=false;
-		left= false;
-		right=false;
-		moves.add("down");
-	} else if(key==37) {    //left arrow            
-		icon1x -= 50;
-		diceCombo-=1;
-
-		left=true; //says that down just moved
-		//these are not the move just made
-		Up=false;
-		down= false;
-		right=false;
-		moves.add("left");
-	} else if(key==39) {  //right arrow              
-		icon1x += 50;
-		diceCombo-=1;
-
-		right=true; //says that down just moved
-		//these are not the move just made
-		Up=false;
-		left= false;
-		down=false;
-		moves.add("right");
-	} 
+            switch (key) {
+                case 38:
+                    //up arrow
+                    //System.out.println(ongoingTurn);
+                    icon1y -= 50;
+                    diceCombo-=1;
+                    Up=true; //says that down just moved
+                    //these are not the move just made
+                    down=false;
+                    left= false;
+                    right=false;
+                    moves.add("up");
+                    break;
+                case 40:
+                    //down arrow
+                    icon1y += 50;
+                    diceCombo-=1;
+                    down=true; //says that down just moved
+                    //these are not the move just made
+                    Up=false;
+                    left= false;
+                    right=false;
+                    moves.add("down");
+                    break;
+                case 37:
+                    //left arrow
+                    icon1x -= 50;
+                    diceCombo-=1;
+                    left=true; //says that down just moved
+                    //these are not the move just made
+                    Up=false;
+                    down= false;
+                    right=false;
+                    moves.add("left");
+                    break;
+                case 39:
+                    //right arrow
+                    icon1x += 50;
+                    diceCombo-=1;
+                    right=true; //says that down just moved
+                    //these are not the move just made
+                    Up=false;
+                    left= false; 
+                    down=false;
+                    moves.add("right");
+                    break;
+                default:
+                    break;
+            }
 	
 	System.out.println("up is"+ Up);
    //while(diceCombo<diceTwo+diceOne){//makes sure that dicecombo cannot go above its original value
@@ -635,19 +649,27 @@ if(ongoingTurn==true){//if the turn has started
    if (key == 8) {//backspace key
 	if (!moves.isEmpty()) {//if there are moves in the move list; so if dicecombo is max there will be nothing in the list
 		String lastmove = moves.pop();//remove the most recent move
-		if (lastmove.equals("up")) {//
-			icon1y += 50;
-			diceCombo+=1;
-		} else if (lastmove.equals("down")) {
-			icon1y -= 50;
-			diceCombo+=1;
-		} else if (lastmove.equals("left")) {
-			icon1x += 50;
-			diceCombo+=1;
-		} else if (lastmove.equals("right")) {
-			icon1x -= 50;
-			diceCombo+=1;
-		}
+            switch (lastmove) {
+                case "up":
+                    //
+                    icon1y += 50;
+                    diceCombo+=1;
+                    break;
+                case "down":
+                    icon1y -= 50;
+                    diceCombo+=1;
+                    break;
+                case "left":
+                    icon1x += 50;
+                    diceCombo+=1;
+                    break;
+                case "right":
+                    icon1x -= 50;
+                    diceCombo+=1;
+                    break;
+                default:
+                    break;
+            }
 	}
    }
 

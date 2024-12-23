@@ -6,7 +6,7 @@ public class Bernie extends Suspects{
 
     
     public Bernie(){
-        super("Bernie Sanders" ,new ImageIcon("SuspectImages\\Bernie.webp"));
+        super("Bernie Sanders" ,new ImageIcon("SuspectImages\\Bernie.jpg"));
     }
 }
 
