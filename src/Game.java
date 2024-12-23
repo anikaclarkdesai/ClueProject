@@ -1,7 +1,9 @@
+import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
-import javax.sound.midi.SysexMessage;
-import javax.swing.*;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.MoveAction;
+import java.awt.event.*; 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 
 import Cards.Cards;
 import Cards.People.AOC;
@@ -28,13 +30,13 @@ import Cards.Weapons.Propaganda;
 import Cards.Weapons.VoterFraud;
 import Cards.Weapons.Weapons;
 
-import java.awt.*;
-import java.awt.image.BufferedImage;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.awt.event.*; 
+
+
 
 public class Game  extends JPanel implements Runnable, KeyListener, MouseListener, MouseMotionListener{
 
