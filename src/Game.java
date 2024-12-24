@@ -233,19 +233,19 @@ public Game() {
 		if(shuffled==true){//checks if the cards have been joined and distributed
 			BeginGame(g2d);
 			//diceRolled =false;//sets that the roll has not started
-			
-			if(drawClickDice==true&& drawMoveSpaces==false){//draws click space to move dice when the dice havent been
-				g2d.drawString("Click Space Bar to Roll Dice", 83,345 );
-			
-			}	
-			if( drawMoveSpaces==true){//allows to draw how much is in the dice
-					g2d.drawString("Dice 1: "+diceOne+ " Dice 2: "+diceTwo, 83, 345);
-					g2d.drawString("Place Charcter "+ (diceCombo)+ " Spaces" , x, y);
-						if(ongoingTurn==true){
-							makeMove(g2d);//allow the movement of charcters
-									
-							}
-			}
+		
+		if(drawClickDice==true&& drawMoveSpaces==false){//draws click space to move dice when the dice havent been
+			g2d.drawString("Click Space Bar to Roll Dice", 83,345 );
+		
+		}	
+		if( drawMoveSpaces==true){//allows to draw how much is in the dice
+			g2d.drawString("Dice 1: "+diceOne+ " Dice 2: "+diceTwo, 83, 345);
+			g2d.drawString("Place Charcter "+ (diceCombo)+ " Spaces" , x, y);
+				if(ongoingTurn==true){//if it is the turn of the player
+					makeMove(g2d);//allow the movement of charcters
+								
+						}
+		}
 				
 		}
 
@@ -488,7 +488,7 @@ public void ClueSheet(Graphics g2d){
 	moveMade=false;
 	int i= diceCombo;//sets integer = to the initial dice combo
 	
-	g2d.drawImage(defaultImage.getImage(), icon1x, icon1y, icon1w, icon1h, this);
+	g2d.drawImage(ChosenCharcater.getImage(), icon1x, icon1y, icon1w, icon1h, this);
 	
 	if(diceCombo==0){//no more dice value
 			//drawMoveSpaces=false;
