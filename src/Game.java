@@ -15,10 +15,13 @@ import Cards.People.Suspects;
 import Cards.People.TedCruz;
 import Cards.People.TimWalz;
 import Cards.Rooms.Capital;
+import Cards.Rooms.GasStation;
+import Cards.Rooms.LaborUnion;
 import Cards.Rooms.Pennsylvania;
 import Cards.Rooms.PlannedParenthood;
 import Cards.Rooms.Rooms;
 import Cards.Rooms.SchoolNurse;
+import Cards.Rooms.SupremeCourt;
 import Cards.Rooms.TheBorder;
 import Cards.Rooms.WallStreet;
 import Cards.Weapons.Auditor;
@@ -167,11 +170,15 @@ public Game() {
 	private ArrayList<Cards> setRooms(){//writes the rooms into arraylist from the types of rooms
 	ArrayList<Cards> Rooms = new ArrayList<Cards>();
 			Rooms.add(new Capital());
+			Rooms.add(new GasStation());
+			Rooms.add(new LaborUnion());
 			Rooms.add(new Pennsylvania());
 			Rooms.add(new PlannedParenthood());
 			Rooms.add(new SchoolNurse());
+			Rooms.add(new SupremeCourt());
 			Rooms.add(new TheBorder());
 			Rooms.add(new WallStreet());
+			
 		return Rooms;
 	}
 

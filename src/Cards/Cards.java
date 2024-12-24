@@ -3,21 +3,19 @@ package Cards;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.awt.Rectangle;
-import java.awt.image.ImageObserver;
 import java.util.ArrayList;
-
 import javax.swing.ImageIcon;
 
 public class Cards {
-    
+
     public String type;
     public int x,y,w,h;
     public ImageIcon img;
     private ArrayList <Cards> cardtype;
     private String name;
-    
-    
+    private ArrayList<int[]> entries;
+
+
         public Cards() {
             //sets the basic values of the card
             x= 411;
@@ -27,9 +25,10 @@ public class Cards {
             name= "void";
             type = "void";
             img= new ImageIcon("CardBackground.jpeg");
-    
+            ArrayList<int[]> entries = new ArrayList<>();
+
         }
-    
+
         public Cards(int x, int y, String name, String typeofCard, ImageIcon i){ //imports the type of card
             this.x = x;
             this.y = y;
@@ -44,7 +43,15 @@ public class Cards {
             cardtype.add(type);//adds the type of class the card inherets from into an arraylist
     
         } */
+        public Cards(int x, int y, int width, int height, String name, ArrayList<int[]> entries){ //imports the type of card
+            this.x = x;
+            this.y = y;
+            this.w = width;
+            this.h = height;
+            this.name = name;//name of the character, weapon, or room
+            this.entries = entries;
 
+        }
 
     public Cards(String s){
             name =s;
