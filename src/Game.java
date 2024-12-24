@@ -29,6 +29,7 @@ import Cards.Weapons.Inflation;
 import Cards.Weapons.Propaganda;
 import Cards.Weapons.VoterFraud;
 import Cards.Weapons.Weapons;
+import java.lang.reflect.Array;
 
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ private int amountofplayers, diceOne, diceTwo, diceCombo; //how many people are 
 private int cardbasicx, cardbasicy, cardbasicw, cardbasich;//sets the x and y of the basic card
 private int icon1x, icon1y, icon1w, icon1h;//sets the x and y of the basic card
 private HashMap <String, ArrayList <Cards>> cards;
-private LinkedList <String> moves; //List of player movements
+private ArrayList <String> moves; //List of player movements
 public ArrayList <Cards> deck;
 public HashMap <Rectangle, Cards> pickChar;
 private Cards tempCard, ChosenCharcater; //speaks to the card class so I can access, tempCard gets the top card //shos the character chosen by the player
@@ -77,7 +78,7 @@ public Game() {
 
 			cards = setCards();	//calls the all the cards in the hashmap
 			deck = deck(); //calls all the cards in a players hand
-			moves = new LinkedList<String>();//creates a linked list of moves made by a character
+			moves = new ArrayList<String>();//creates a linked list of moves made by a character
 
 
 			cardpicked= false; //checks if the temp card has been remove and if it has then to remove it from the pile and being drawn
@@ -530,6 +531,87 @@ public void WithinRoomBounds(Graphics g2d){
 		//y+37
 	 }
 	 //DO NOT DELETE
+
+
+public void PlayerMovement(int k){
+	switch (k) {
+		case 38:
+			//up arrow
+			//System.out.println(ongoingTurn);
+			icon1y -= 50;
+			diceCombo-=1;
+			Up=true; //says that down just moved
+			//these are not the move just made
+			down=false;
+			left= false;
+			right=false;
+			moves.add("up");
+			break;
+		case 40:
+			//down arrow
+			icon1y += 50;
+			diceCombo-=1;
+			down=true; //says that down just moved
+			//these are not the move just made
+			Up=false;
+			left= false;
+			right=false;
+			moves.add("down");
+			break;
+		case 37:
+			//left arrow
+			icon1x -= 50;
+			diceCombo-=1;
+			left=true; //says that down just moved
+			//these are not the move just made
+			Up=false;
+			down= false;
+			right=false;
+			moves.add("left");
+			break;
+		case 39:
+			//right arrow
+			icon1x += 50;
+			diceCombo-=1;
+			right=true; //says that down just moved
+			//these are not the move just made
+			Up=false;
+			left= false; 
+			down=false;
+			moves.add("right");
+			break;
+		default:
+			break;
+	}
+}
+
+public void PlayerBackSpace(){
+	if (!moves.isEmpty()) {//if there are moves in the move list; so if dicecombo is max there will be nothing in the list
+		String lastmove = moves.remove(moves.size()-1);//remove the most recent move
+			switch (lastmove) {
+				case "up":
+					//
+					icon1y += 50;
+					diceCombo+=1;
+					break;
+				case "down":
+					icon1y -= 50;
+					diceCombo+=1;
+					break;
+				case "left":
+					icon1x += 50;
+					diceCombo+=1;
+					break;
+				case "right":
+					icon1x -= 50;
+					diceCombo+=1;
+					break;
+				default:
+					break;
+			}
+	}
+}
+
 @Override
 public void keyTyped(KeyEvent e) {
 	// TODO Auto-generated method stub
@@ -555,142 +637,51 @@ public void keyPressed(KeyEvent e) {
 	right=false;
 */
 if(playerschosen==false){ //if the player size has not been chosen
-            switch (key) {
-                case 50:
-                    amountofplayers=2;
-                    playerschosen= true;
-                    break;
-                case 51:
-                    amountofplayers=3;
-                    playerschosen= true;
-                    break;
-                case 52:
-                    amountofplayers=4;
-                    playerschosen= true;
-                    break;
-                default:
-                    System.out.println("Invalid Amount of Players");
-                    break;
-            }
+	switch (key) {
+		case 50:
+			amountofplayers=2;
+			playerschosen= true;
+			break;
+		case 51:
+			amountofplayers=3;
+			playerschosen= true;
+			break;
+		case 52:
+			amountofplayers=4;
+			playerschosen= true;
+			break;
+		default:
+			System.out.println("Invalid Amount of Players");
+			break;
+	}
 } 
 
-if(ongoingTurn==true){ //if the turn has started
-//	wentAboveOGValue=false; //did not originally go over original value
-            switch (key) {
-                case 38:
-                    //up arrow
-                    //System.out.println(ongoingTurn);
-                    icon1y -= 50;
-                    diceCombo-=1;
-                    Up=true; //says that down just moved
-                    //these are not the move just made
-                    down=false;
-                    left= false;
-                    right=false;
-                    moves.add("up");
-                    break;
-                case 40:
-                    //down arrow
-                    icon1y += 50;
-                    diceCombo-=1;
-                    down=true; //says that down just moved
-                    //these are not the move just made
-                    Up=false;
-                    left= false;
-                    right=false;
-                    moves.add("down");
-                    break;
-                case 37:
-                    //left arrow
-                    icon1x -= 50;
-                    diceCombo-=1;
-                    left=true; //says that down just moved
-                    //these are not the move just made
-                    Up=false;
-                    down= false;
-                    right=false;
-                    moves.add("left");
-                    break;
-                case 39:
-                    //right arrow
-                    icon1x += 50;
-                    diceCombo-=1;
-                    right=true; //says that down just moved
-                    //these are not the move just made
-                    Up=false;
-                    left= false; 
-                    down=false;
-                    moves.add("right");
-                    break;
-                default:
-                    break;
-            }
-	
-	System.out.println("up is"+ Up);
-   //while(diceCombo<diceTwo+diceOne){//makes sure that dicecombo cannot go above its original value
-/*if(wentAboveOGValue==false)	{
-   if (Up==true&&key==8) {       //up arrow  
-				//System.out.println(ongoingTurn);       
-				icon1y += 50;
-				diceCombo+=1;
-	} else if(down==true&&key==8) {  //down arrow              
-				icon1y -= 50;
-				diceCombo+=1;
-	} else if(left==true&&key==8) {    //left arrow            
-				icon1x += 50;
-				diceCombo+=1;
-	} else if(right==true&&key==8) {  //right arrow              
-			icon1x -= 50;
-				
-			diceCombo+=1;
+	if(ongoingTurn==true){ //if the turn has started
+	//	wentAboveOGValue=false; //did not originally go over original value
+		PlayerMovement(key);//move the player
+			
+
+	if (key == 8) {//backspace key
+			PlayerBackSpace();//undoes player movemtn
 		}
-   }*/
+		
+		}
+		//}
+			
 
-   if (key == 8) {//backspace key
-	if (!moves.isEmpty()) {//if there are moves in the move list; so if dicecombo is max there will be nothing in the list
-		String lastmove = moves.pop();//remove the most recent move
-            switch (lastmove) {
-                case "up":
-                    //
-                    icon1y += 50;
-                    diceCombo+=1;
-                    break;
-                case "down":
-                    icon1y -= 50;
-                    diceCombo+=1;
-                    break;
-                case "left":
-                    icon1x += 50;
-                    diceCombo+=1;
-                    break;
-                case "right":
-                    icon1x -= 50;
-                    diceCombo+=1;
-                    break;
-                default:
-                    break;
-            }
+	
+	
+	if(shuffled==true && key==32 && ongoingTurn ==true && diceRolled==false && rollOnlyOnce==false ){ //if the cards have already been shuffled, space bar was pressed, it is player ones turn and they have not rolled the dice
+		diceRolled=true;//the dice has been rolled
+		//drawClickDice=false;
+		drawMoveSpaces=true;//draw the spaces 
+		rollOnlyOnce=true;//make sure it only rolls one time
+		
 	}
-   }
+	}
+		
 
-}
-//}
-	
-
-
-
-if(shuffled==true && key==32 && ongoingTurn ==true && diceRolled==false && rollOnlyOnce==false ){ //if the cards have already been shuffled, space bar was pressed, it is player ones turn and they have not rolled the dice
-	diceRolled=true;//the dice has been rolled
-	//drawClickDice=false;
-	drawMoveSpaces=true;//draw the spaces 
-	rollOnlyOnce=true;//make sure it only rolls one time
-	
-}
-}
-	
-	
-
-//DO NOT DELETE
+	//DO NOT DELETE
 @Override
 public void keyReleased(KeyEvent e) {
 	
